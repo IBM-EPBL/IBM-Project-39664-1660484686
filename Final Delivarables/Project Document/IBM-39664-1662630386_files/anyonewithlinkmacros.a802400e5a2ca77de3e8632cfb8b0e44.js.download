@@ -1,0 +1,129 @@
+/*$Id$*/
+Macros.getType = function() {
+    return "anyone"; //No I18N
+};
+
+Macros.getImageLibRemoteOptions = function(){
+	var options = {};
+	options.uploadURL = ZWNetworkUtils.getUrl('uploadImageFile'); //No i18n
+	options.enableGadgets = false;
+	var remoteCustomData = {};
+	ZWNetworkUtils.setCsrfParam(remoteCustomData);
+	options.customData = remoteCustomData;
+	return options;	
+};
+
+Macros.review = {
+	addParticipant: function() {
+		var params = {};
+		params.time = new Date().getTime();
+
+		ZWNetworkUtils.ajax({
+			type: "POST", //No I18n
+			global: false,
+			url: ZWNetworkUtils.getNiceUrlPrefix(Macros.getRId() + "/util/addparticipant"), //No i18n
+			async: true,  
+			data: params,
+			dataType: 'json', //No i18N
+			beforeSend: function(request) {
+				ZWNetworkUtils.setCsrfTokenInHeader(request);
+			}
+		});
+	},
+	getAccessType: function() {
+		return "anyone"; //no i18n
+	},
+	setTcView: function(tcMarkup, successCb, failureCb) {
+		successCb && successCb(tcMarkup);
+	}
+};
+
+Macros.isShareListAvailable = function() {
+	return false;
+};
+
+Macros.proofing = {
+	initUserData: function(){
+		var usersData = editor.doc.getUserData();		
+
+		var configurations = {};		
+		configurations.ignoreuppercase = true;
+		configurations.ignoremixedcase = true;
+		configurations.ignorenumbered = true;
+		configurations.wordyphrases = true;
+		configurations.rephrasablesentences = true;
+		configurations.improperwordchoices = true;
+		configurations.informalwriting = false;
+		configurations.noninclusivelanguage = false;
+//		configurations.cliches = true;
+		
+		var proofingData = {};		
+		proofingData[ATTR_BODY.PROOFING_SP] = false;
+		proofingData[ATTR_BODY.PROOFING_GRAMMAR] = true;
+		proofingData[ATTR_BODY.PROOFING_WQ] = true;
+		proofingData.configurations = configurations;
+		
+		if (!usersData[editor.zuid]) {
+			usersData[editor.zuid] = {}
+		}
+		usersData[editor.zuid][ATTR_BODY.PROOFING] = proofingData;
+		editor.doc.setUserData(usersData);
+	},
+	getCache: function(params, successHandler, failureHandler) {
+		successHandler();
+	},
+	ignoreAll: function(params, successHandler, failureHandler) {
+		successHandler(params.lang, params.words);
+	},
+	ignoreSuggestion: function(params, successHandler, failureHandler) {
+		successHandler(params.lang, params.words);
+	},
+	getDictionaryWords: function(lang) {
+	},
+	canDetectLanguage: function() {
+		return false;
+	},
+	setProofingData: function(settings, configurations, cb) {
+		cb && cb.success(settings, configurations);
+	}
+};
+
+Macros.getActivityUrl = function(module, action) {
+	return editor.base_url+ '/rdoc/activities/' + module + '/' + action; //no i18n
+};
+
+Macros.getActivityTrackUrl = function(module) {
+	return editor.base_url+ '/rdoc/activities/' + module;	//no i18n
+};
+
+Macros.isGlobalSettingsAvailable = function() {
+	return false;
+};
+
+
+Macros.canDisplayChangesLink = function(callback) {
+	return;
+};
+
+Macros.getUserColors = function(successCB, failureCB, failureCount) {
+	return;
+};
+Macros.createAddFontButton = function(element){
+};
+
+Macros.changeDialog = function() {
+    editor.sendBugReport();
+    Z('dashboard-btn').hide(); //No I18N
+    document.getElementById("repairdocdlg-title").innerHTML = J.i18n("writer.common.ERROR_REPORTED"); //No I18N
+    document.getElementById("repairdocdlg-msg").innerHTML = J.i18n("writer.common.WRITE_TO_US"); //No I18N
+    J('.ui-repairdialog').addClass('ui-repairdoc-err-reported-cont');
+};
+
+Macros.getAction = function() {
+    return "publicExport"; //No I18N
+};
+Macros.getUserModeParams = function(zuid){
+	var params = {};
+	params.zuid = zuid;
+	return params;
+};

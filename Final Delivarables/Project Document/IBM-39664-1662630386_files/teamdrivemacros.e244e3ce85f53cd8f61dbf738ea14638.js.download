@@ -1,0 +1,29 @@
+/*$Id$*/
+/*Macros.createNewFile = function() {
+	//window.open("https://"+editorProps.urls.teamdriveURL+"/createnew.do?service=zw&parentid=-1"); //No I18N
+	window.open(window.location.origin+"/writer/new?rid="+ editor.doc.docInfo.RID + "&from=menu"); //No I18N
+};*/
+Macros.getUpgradeUrl = function() {
+	return location.protocol+"\\\\"+editorProps.urls.teamdriveURL+"/upgrade"; //No i18n
+};
+Macros.getDocsUrl = function() {
+	return "https://"+editorProps.urls.teamdriveURL; //No I18N
+};
+Macros.getCloudPickerServices = function() {
+	var servicesArray = editor.cloudPickerServices.split(","); 
+	var index = servicesArray.indexOf('zohodocs');
+	if ( index != -1 ) {
+		servicesArray.splice( index, 1);
+	}
+	servicesArray.unshift("workdrive"); //No I18N
+	return servicesArray.toString(); 
+};
+Macros.isWorkDriveDocument = function(){
+	return true;
+};
+Macros.isCropAllowed = function(){
+    return true;
+};
+Macros.isFloatAllowed = function() {
+	return true;
+};
